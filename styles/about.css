@@ -61,9 +61,16 @@ footer {
   font-size: 10pt;
 }
 
-footer a[href] {
-  color: #efff00;  
+a:link {
+  color: #99ff00;
+  text-decoration: none;
 }
+
+a:visited {
+  color: #99ee00;
+  text-decoration: none;
+}
+
 
 @-webkit-keyframes neon1 {
   from {
