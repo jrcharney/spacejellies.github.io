@@ -4,7 +4,65 @@
     <meta charset="utf-8">
     <title>Space Jellies!</title>
     <style type="text/css">
-      /* styles */
+@import url('https://fonts.googleapis.com/css?family=Ranchers');
+/* To use this font:
+ *    font-family: 'Ranchers', cursive;
+ */
+
+body {
+    margin: 0px auto;
+    background-color: #012027;
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%,color-stop(0, rgb(2, 63, 76)),color-stop(1, rgb(0, 1, 2)));
+    /* Android 2.3 */
+    background-image: -webkit-repeating-linear-gradient(bottom,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+    /* IE10+ */
+    background-image: repeating-linear-gradient(to top,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+    background-image: -ms-repeating-linear-gradient(bottom,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h1, h2 {
+  font-family: 'Ranchers', cursive;
+  /* color: #efff33; */
+  /* TODO: EERIE SPACE GLOW!!! */
+  -webkit-animation: neon3 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon3 1.5s ease-in-out infinite alternate;
+  animation: neon3 1.5s ease-in-out infinite alternate;
+
+}
+
+header h1, header h2 {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 64pt;
+}
+
+header h2 {
+  font-size: 48pt;
+}
+
+@-webkit-keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
+  }
+}
+
+@-webkit-keyframes neon3 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFDD1B, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px #FFDD1B, 0 0 150px #FFDD1B;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
+  }
+}
+
+/* TODO: RWD */
     </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
@@ -15,6 +73,13 @@
     </script>
   </head>
   <body>
-    <canvas id="game" width="1024" height="576"></canvas>
+    <header>
+      <!-- TODO: Probably put a fixed nav on the top of the page? -->
+      <h1>Space Jellies!</h1>
+      <h2>Coming Soon!</h2>
+    </header>
+    <main>
+      <canvas id="game" width="1024" height="576"></canvas>
+    </main>
   </body>
 </html>
