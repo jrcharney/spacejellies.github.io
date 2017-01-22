@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attack of the Space Jellies!</title>
+    <link rel="stylesheet" type="text/css" href="styles/index.css">
+    <style type="text/css">
+
+
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      //code
+      //$("game");
+
+      // Constants
+      var PI2    = Math.PI * 2;
+      var HALFPI = Math.PI / 2;
+
+      /**
+       * Borrowed this from https://codepen.io/isuttell/pen/OPVELL
+       * Generates multiple customizable animated sines waves using a canvas element.
+       * Supports retina displays and limited mobile support
+       *
+       * This Sine Wave Generator was created by Isaac Suttell.
+       * There is a seperate library based on this pen.
+       * You can check it out at https://github.com/isuttell/sine-waves
+       * but to be honest, this code is a real fustercluck, and the github is not much better.
+       *
+       * In the future,  I (Jason) would like to create something way better.
+       */
+      var SineWaveGenerator = function(options) {
+        $.extend(this, options || {});    // TODO: What's this for? Phase it out!
+
+        if(!this.el) throw "No Canvas Selected";
+        this.ctx = this.el.getContext('2d');
+
+        if(!this.waves.length) throw "No waves specified";
+
+        // Internal
+        this._resizeWidth();
+        window.addEventListener('resize', this._resizeWidth.bind(this)); // TODO: WHY ARE YOU USING RAW EVENTS WHEN YOU ARE USING JQUERY?!
+        // User
+        this.resizeEvent();
+        window.addEventListener('resize', this.resizeEvent.bind(this));  // TODO: TWICE!  (What is the difference, anyway?)
+
+        if(typeof this.initialize === 'function')
+          this.initialize.call(this);
+
+        this.loop();      // Start the magic
+      }
+
+      // TODO: redefine this stuff.
+      // Defaults
+      SineWaveGenerator.prototype = {
+        // Attributes
+        speed         : 10,
+        amplitude     : 50,
+        wavelength    : 50,
+        segmentLength : 10,
+
+        lineWidth   : 2,
+        strokeStyle : 'rgba(255, 255, 255, 0.2)',
+
+        // Methods
+        resizeEvent : function() {},
+
+        _resizeWidth : function() {    // fill the screen
+          this.dpr = window.devicePixelRatio || 1;
+
+          this.width           = this.el.width      = window.innerWidth  * this.dpr;
+          this.height          = this.el.height     = window.innerHeight * this.dpr;
+          this.el.style.width  = window.innerWidth  + 'px';
+          this.el.style.height = window.innerHeight + 'px';
+
+          this.waveWidth       = this.width * 0.95;
+          this.waveLeft        = this.width * 0.025;
+        },
+
+        clear : function () {
+          this.ctx.clearRect(0, 0, this.width, this.height);
+        },
+
+        time : 0,
+
+        update : function(time) {
+          this.time -= 0.007;
+          if(typeof time === 'undefined')
+            time = this.time;
+
+          var index  = -1;
+          var length = this.waves.length;
+
+          while(++index < length) {
+            var timeModifier = this.waves[index].timeModifier || 1;
+            this.drawSine(
+              time * timeModifier,
+              this.waves[index]
+            );
+          }
+
+          index  = length = void 0;    // Cleaning up
+        },
+
+        // TODO: Describe what this function is doing mathematically.
+        ease : function(percent, amplitude) {
+          return amplitude * (Math.sin(percent * PI2 - HALFPI) + 1) * 0.5;
+        },
+
+        drawSine : function(time, options) {
+          options       = options               || {};
+          amplitude     = options.amplitude     || this.amplitude;
+          wavelength    = options.wavelength    || this.wavelength;
+          lineWidth     = options.lineWidth     || this.lineWidth;
+          strokeStyle   = options.strokeStyle   || this.strokeStyle;
+          segmentLength = options.segmentLength || this.segmentLength;
+
+          var x     = time;
+          var y     = 0;
+          var amp   = this.amplitude;
+          var yAxis = this.height / 2;    // Center the waves, TODO: Probably should change that.
+
+          // Styles
+          this.ctx.lineWidth   = lineWidth * this.dpr;
+          this.ctx.strokeStyle = strokeStyle;
+          this.ctx.lineCap     = 'round';
+          this.ctx.lineJoin    = 'round';
+          this.ctx.beginPath();
+
+          // Starting Line
+          this.ctx.moveTo(0, yAxis);
+          this.ctx.lineTo(this.waveLeft, yAxis);
+
+          for(var i = 0; i < this.waveWidth; i += segmentLength) {
+            x = (time * this.speed) + (-yAxis + i) / wavelength;
+            y = Math.sin(x);
+
+            // Easing
+            amp = this.ease(i / this.waveWidth, amplitude);
+
+            this.ctx.lineTo(i + this.waveLeft, amp * y + yAxis);
+
+            amp = void 0;    // Clean up
+          }
+
+          this.ctx.lineTo(this.width, yAxis);    // Ending Line
+          this.ctx.stroke();  // Stroke it
+
+          options = amplitude = wavelength = lineWidth = strokeStyle = segmentLength = x = y = void 0;  // Clean Up
+        },
+
+        loop : function() {
+          this.clear();
+          this.update();
+
+          window.requestAnimationFrame(this.loop.bind(this));    // TODO: Wasn't there some other way of using this file.
+        },
+
+
+      }
+
+      // I feel like this should be in an anonymous function.
+      new SineWaveGenerator({
+        el: document.getElementById('game'),
+
+        speed: 8,    /* TODO: Make this variably random! */
+
+        /* TODO: separate these into separate objects */
+        waves: [
+          { timeModifier: 1, lineWidth: 3,   amplitude:  150, wavelength: 200, segmentLength: 20, /* strokeStyle: 'rgba(255, 255, 255, 0.5)' */ },
+          { timeModifier: 1, lineWidth: 2,   amplitude:  150, wavelength: 100,                    /* strokeStyle: 'rgba(255, 255, 255, 0.3)' */ },
+          { timeModifier: 1, lineWidth: 1,   amplitude: -150, wavelength:  50, segmentLength: 10, /* strokeStyle: 'rgba(255, 255, 255, 0.2)' */ },
+          { timeModifier: 1, lineWidth: 0.5, amplitude: -100, wavelength: 100, segmentLength: 10, /* strokeStyle: 'rgba(255, 255, 255, 0.1)' */ }
+        ],
+
+        initialize: function (){},
+
+        resizeEvent: function() {
+          var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0);
+          gradient.addColorStop(0,  "rgba(  0,   0,   0, 0  )");
+          gradient.addColorStop(0.5,"rgba(255, 255, 255, 0.5)");
+          gradient.addColorStop(1,  "rgba(  0,   0,   0, 0  )");
+
+          var index  = -1;
+          var length = this.waves.length;
+      	  while(++index < length)
+            this.waves[index].strokeStyle = gradient;
+
+          index = length = gradient = void 0;  // Clean Up
+        }
+      });
+
+
+      // NOTE: our space bar will need to move our ship to the nearest high or low amplitude to avoid an enemy.
+      $("body").on("keypress","#game",function(e){
+        switch(e.keyCode){
+          //case 8: // backspace
+          case 32: // spacebar (GGJ Diversifer!)
+              // TODO: I owe you some function here.
+            break;
+          //case 37: // Left
+          //case 38: // Up
+            //v = e.currentTarget.value;
+            //setTone(e.currentTarget.value);
+            //setTone(v);
+            //$("#freq").val(v);
+            //break;
+          //case 39: // Right
+          //case 40: // Down
+            //setTone(e.currentTarget.value);
+            //v = e.currentTarget.value;
+            //setTone(v);
+            //$("#freq").val(v);
+            //break;
+          default:
+            // All other keys should do nothing!
+            //if(oscillator)
+            //  oscillator.stop();
+            break;
+        };
+      });
+
+      // draw function might go here. Don't use an anonymous function!
+
+      $("body").on("click","#overlay",function(){
+        $(this).animate({ height: 0, opacity: 0 }, 1000, function(){   // Fade out the overlay, TODO: fade out and roll up!
+          $("header h1").animate({opacity: 1}, 500, function(){    // I still want a fade in the header
+            // Anything here?
+          });
+        });
+      });
+
+      var goRight = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'left': '50%'  //'calc(100% - 100px)'
+        }, 5000,
+         function() {
+           //setTimeout(goLeft, 50);
+        });
+      };
+
+      var goLeft = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'left': '0%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+      var goUp = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'top': '0%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+      var goDown = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          //'top': '0%'
+          'top' : '90%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+      var goCenter = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'top': '50%',
+          'left' : '50%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+
+      var game, boat, baddies;
+
+      var spaces = 0;
+
+      var dir = [ "up", "center", "down" ];
+
+      $(document).on("keydown",function(e){
+        // THESE TWO LINES IN THIS ORDER ARE REQUIRED TO PREVENT SCROLLING ON START!
+        if( e.which === 32 && e.target === document.body ){
+          e.preventDefault();
+          if(spaces === 0){
+            $("#overlay").animate({ height: 0, opacity: 0 }, 1000, function(){   // Fade out the overlay, TODO: fade out and roll up!
+              $("header h1").animate({opacity: 1}, 500, function(){    // I still want a fade in the header
+                // Anything here?
+
+                game = $("#game");
+                game.focus();
+                boat = $("<div></div>").attr({"id" : "animate"}).append(
+                  $("<img/>").attr({
+                    "src":"./img/Ship.png",
+                    "alt":"ARRR!",
+                    "width":100,
+                    "height":100
+                  })
+                );
+                boat.insertAfter(game);
+                spaces++;
+
+                //setTimeout(goRight, 50);
+                setTimeout(function(){
+                  goRight(boat);
+                },50);
+              });
+            });
+          } else {
+            // MOVE!
+            switch(spaces % 3){
+              case 0: spaces++; goUp(boat); break;
+              case 1: spaces++; goCenter(boat); break;
+              case 2: spaces++; goDown(boat); break;
+            }
+            //spaces++;
+          }
+        }
+      });
+
+      //$("#game").focus();    // Focus on our game on page load.
+
+      // TODO: On Game Over, fade in the overlay and ask if you want to play again.
+      // TODO: If the user says No, fade back to the overlay they saw when they came to the website.
+      // TODO: If the user says Yes, fade out again with a new game.
+
+
+    });
+    </script>
+  </head>
+  <body>
+    <div id="overlay">
+      <div class="overback"></div><!-- This thing needs a background -->
+      <div class="overfront">
+        <h1>Attack of the Space Jellies!</h1>
+        <h2>Click Here or Press Space to Start!</h2>
+      </div>
+    </div>
+
+    <a href="https://github.com/teamspacejellies/spacejellies"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <header>
+      <!-- TODO: Probably put a fixed nav on the top of the page? -->
+      <!-- TODO: Make the "Attack of the" part a separate entity. -->
+      <!-- todo: Replace this big overlay with a shorter header when the overlay is clicked on -->
+      <h1>Attack of the Space Jellies!</h1>
+    </header>
+    <main>
+      <canvas id="game" width="1024" height="576"></canvas>
+      <!-- TODO: Embed our figures into our cavas! -->
+    </main>
+    <footer>
+      <div><img src="./img/Ship.png" alt="ship"></div>
+      <div>Made In St. Louis!</div>
+      <div><img src="./img/Jelly-S.png" alt="jelly"></div>
+    </footer>
+  </body>
+</html>
