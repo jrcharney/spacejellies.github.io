@@ -1,0 +1,22 @@
+GGJ site: http://globalgamejam.org/2017/games/attack-space-jellies
+YouTube: https://www.youtube.com/channel/UCkluw3Dxm_o1vcHsc4wtDRw
+Website to play: https://teamspacejellies.github.io/spacejellies/
+GitHub: https://github.com/teamspacejellies/spacejellies
+
+Credits: 
+Everyone: Design
+
+Jason Charney: Programming
+jrcharney@gmail.com
+
+Caitlin Moriarity: Writing
+clmoriarity@gmail.com
+
+Neko Pilarcik: Animation, Art
+neko.pilarcik@gmail.com
+
+Jen Patton: Project Management, Art
+jenrpa@gmail.com
+
+Oscar Wright: Sound
+oscar@oscarwright.com
