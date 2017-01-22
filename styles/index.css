@@ -6,12 +6,13 @@
 body {
     margin: 0px auto;
     background-color: #012027;
+
     background-image: -webkit-gradient(linear, 0% 100%, 0% 0%,color-stop(0, rgb(2, 63, 76)),color-stop(1, rgb(0, 1, 2)));
-    /* Android 2.3 */
     background-image: -webkit-repeating-linear-gradient(bottom,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
-    /* IE10+ */
     background-image: repeating-linear-gradient(to top,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
     background-image: -ms-repeating-linear-gradient(bottom,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+
+    background-image: url("../img/REALLYspaaaaaaace.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
@@ -190,7 +191,7 @@ footer div:last-child {
   to {
     -ms-transform: rotate(-7deg); /* IE 9 */
     -webkit-transform: rotate(-7deg); /* Safari */
-    transform: rotate(-7deg);    
+    transform: rotate(-7deg);
   }
 }
 

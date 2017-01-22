@@ -2,49 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attack of the Space Jellies!</title>
     <link rel="stylesheet" type="text/css" href="styles/index.css">
     <style type="text/css">
 
-    body{background-color:#222;}
-    *{padding: 0; margin: 0;}
-
-    /* Lets Pop up */
-    .letspop{
-      background-color: #fff;
-      width: 120px;
-      display: block;
-      margin: 5% auto;
-      padding: 20px;
-      position: relative;
-      text-align: center;
-    }
-    .letspop:hover{
-      cursor: pointer;
-    }
-    .overlay{
-      display: none; /* Default Hidden */
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 1;
-      background-color: rgba(0,0,0,0.6);
-      height: 100%;
-      width: 100%;
-    }
-    .popup{
-      display: none; /* Default Hidden */
-      position: fixed;
-      left: 50%;
-      top: 5%;
-      z-index: 2;
-      background-color: #fff;
-      height: auto;
-      width: auto;
-      overflow: hidden;
-      padding: 40px;
-      transform: translate(-50%, 0);
-    }
 
     </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -271,27 +233,29 @@
         });
       });
 
+      var sailingship = function(){
+
+      }
+
+      $(document).on("keydown",function(e){
+        // THESE TWO LINES IN THIS ORDER ARE REQUIRED TO PREVENT SCROLLING ON START!
+        if( e.which === 32 && e.target === document.body ){
+          e.preventDefault();
+          $("#overlay").animate({ height: 0, opacity: 0 }, 1000, function(){   // Fade out the overlay, TODO: fade out and roll up!
+            $("header h1").animate({opacity: 1}, 500, function(){    // I still want a fade in the header
+              // Anything here?
+              $("#game").focus();
+            });
+          });
+        }
+      });
+
+      //$("#game").focus();    // Focus on our game on page load.
+
       // TODO: On Game Over, fade in the overlay and ask if you want to play again.
       // TODO: If the user says No, fade back to the overlay they saw when they came to the website.
       // TODO: If the user says Yes, fade out again with a new game.
 
-      /*
-      // The class you click to trigger the popup
-      $('.letspop').on('click', function() {
-        // The Overlay fades in
-        $(".overlay").fadeIn(200, function() {});
-        // The Popup fades in just after
-        $(".popup").fadeIn(600, function() {});
-      });
-
-      // The class's you click when you want to close the pop
-      $('.overlay, .close').on('click', function() {
-        // The Overlay fades out slower
-        $(".overlay").fadeOut(600, function() {});
-        // The Popup fades out faster
-        $(".popup").fadeOut(200, function() {});
-      });
-      */
 
     });
     </script>
@@ -316,9 +280,9 @@
       <canvas id="game" width="1024" height="576"></canvas>
     </main>
     <footer>
-      <div><img src="./img/ship.gif" alt="ship"></div>
+      <div><img src="./img/Ship.png" alt="ship"></div>
       <div>Made In St. Louis!</div>
-      <div><img src="./img/jelly1.gif" alt="jelly"></div>
+      <div><img src="./img/Jelly-S.png" alt="jelly"></div>
     </footer>
   </body>
 </html>
