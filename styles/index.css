@@ -162,7 +162,28 @@ footer div:last-child {
   right: 0;
 }
 
+/* #animate { position: relative; border; 1px solid green; background: yellow; width: 100px; height: 100px;} */
+
+
+
 /* Animations */
+#animate {
+  top: 50%;
+  left: 0%;
+  position: absolute; /* relative; */
+  /* border: 1px solid green; background: yellow; */
+  width: 100px;
+  height: 100px;
+  z-index: 30;
+
+  -webkit-animation: boatrock 1.5s ease-in-out infinite alternate;
+  -moz-animation:    boatrock 1.5s ease-in-out infinite alternate;
+  animation:         boatrock 1.5s ease-in-out infinite alternate;
+
+}
+
+
+
 @-webkit-keyframes neon1 {
   from {
     text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;

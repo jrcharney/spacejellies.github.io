@@ -233,20 +233,98 @@
         });
       });
 
-      var sailingship = function(){
+      var goRight = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'left': '50%'  //'calc(100% - 100px)'
+        }, 5000,
+         function() {
+           //setTimeout(goLeft, 50);
+        });
+      };
 
+      var goLeft = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'left': '0%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
       }
+
+      var goUp = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'top': '0%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+      var goDown = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          //'top': '0%'
+          'top' : '90%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+      var goCenter = function(sel) {
+        var sel = sel || $("#animate");
+        sel.animate({
+          'top': '50%',
+          'left' : '50%'
+        }, 5000, function() {
+          //setTimeout(goRight, 50);
+        });
+      }
+
+
+      var game, boat, baddies;
+
+      var spaces = 0;
+
+      var dir = [ "up", "center", "down" ];
 
       $(document).on("keydown",function(e){
         // THESE TWO LINES IN THIS ORDER ARE REQUIRED TO PREVENT SCROLLING ON START!
         if( e.which === 32 && e.target === document.body ){
           e.preventDefault();
-          $("#overlay").animate({ height: 0, opacity: 0 }, 1000, function(){   // Fade out the overlay, TODO: fade out and roll up!
-            $("header h1").animate({opacity: 1}, 500, function(){    // I still want a fade in the header
-              // Anything here?
-              $("#game").focus();
+          if(spaces === 0){
+            $("#overlay").animate({ height: 0, opacity: 0 }, 1000, function(){   // Fade out the overlay, TODO: fade out and roll up!
+              $("header h1").animate({opacity: 1}, 500, function(){    // I still want a fade in the header
+                // Anything here?
+
+                game = $("#game");
+                game.focus();
+                boat = $("<div></div>").attr({"id" : "animate"}).append(
+                  $("<img/>").attr({
+                    "src":"./img/Ship.png",
+                    "alt":"ARRR!",
+                    "width":100,
+                    "height":100
+                  })
+                );
+                boat.insertAfter(game);
+                spaces++;
+
+                //setTimeout(goRight, 50);
+                setTimeout(function(){
+                  goRight(boat);
+                },50);
+              });
             });
-          });
+          } else {
+            // MOVE!
+            switch(spaces % 3){
+              case 0: spaces++; goUp(boat); break;
+              case 1: spaces++; goCenter(boat); break;
+              case 2: spaces++; goDown(boat); break;
+            }
+            //spaces++;
+          }
         }
       });
 
@@ -278,6 +356,7 @@
     </header>
     <main>
       <canvas id="game" width="1024" height="576"></canvas>
+      <!-- TODO: Embed our figures into our cavas! -->
     </main>
     <footer>
       <div><img src="./img/Ship.png" alt="ship"></div>
