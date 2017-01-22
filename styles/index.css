@@ -56,4 +56,50 @@ header h2 {
   }
 }
 
+footer {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background: transparent;
+  position: fixed; /* relative; */
+  display: flex;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex-flow: space-between;
+  vertical-align: bottom;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+footer div {
+  /* position: fixed; absolute; */
+  /* vertical-align: bottom; */
+  display: flex;
+  bottom: 0;
+  /* align-self: flex-end; */
+}
+
+footer div:first-child {
+  text-align: left;
+  left: 0;
+}
+
+footer div:nth-child(2){
+  /* flex-grow: 2; */
+  text-align: center;
+
+  /* color: #efff33; */
+  /* TODO: EERIE SPACE GLOW!!! */
+  -webkit-animation: neon3 1.5s ease-in-out infinite alternate;
+  -moz-animation:    neon3 1.5s ease-in-out infinite alternate;
+  animation:         neon3 1.5s ease-in-out infinite alternate;
+}
+
+footer div:last-child {
+  text-align: right;
+  right: 0;
+}
+
 /* TODO: RWD */
