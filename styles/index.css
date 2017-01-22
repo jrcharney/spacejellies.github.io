@@ -26,34 +26,92 @@ h1, h2 {
 
 }
 
-header h1, header h2 {
-  text-align: center;
+#overlay {
+  display: block;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0px auto;
+  cursor: pointer;
+  background: transparent;
+  /* opacity: 0.7; */
 }
 
-header h1 {
+.overback {
+  display: block;
+  position: fixed;
+  z-index: 15;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  margin: 0px auto;
+  background-color: #012027;
+  background-image: -webkit-gradient(linear, 0% 100%, 0% 0%,color-stop(0, rgb(2, 63, 76)),color-stop(1, rgb(0, 1, 2)));
+  /* Android 2.3 */
+  background-image: -webkit-repeating-linear-gradient(bottom,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+  /* IE10+ */
+  background-image: repeating-linear-gradient(to top,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+  background-image: -ms-repeating-linear-gradient(bottom,rgb(2, 63, 76) 0%,rgb(0, 1, 2) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  opacity: 0.75;
+}
+
+.overfront{
+  display: block;
+  position: fixed;
+  z-index: 15;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  margin: 0px auto;
+  background: transparent;
+}
+
+.overfront h1, .overfront h2 {
+  font-family: 'Ranchers', cursive;
+  text-align: center;
+  z-index: 20;
+  vertical-align: middle;
+}
+
+.overfront h1 {
   font-size: 64pt;
 }
 
-header h2 {
+.overfront h2 {
   font-size: 48pt;
 }
 
-@-webkit-keyframes neon1 {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
-  }
+h1, h2 {
+  font-family: 'Ranchers', cursive;
+  /* color: #efff33; */
+  /* TODO: EERIE SPACE GLOW!!! */
+  -webkit-animation: neon3 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon3 1.5s ease-in-out infinite alternate;
+  animation: neon3 1.5s ease-in-out infinite alternate;
+
 }
 
-@-webkit-keyframes neon3 {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFDD1B, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px #FFDD1B, 0 0 150px #FFDD1B;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
-  }
+header h1, header h2 {
+  font-family: 'Ranchers', cursive;
+  text-align: left;
+}
+
+header h1 {
+  font-size: 36pt;
+  margin-top: 5px;
+  padding: 5px;
+  opacity: 0;  /* Make this transparent on startup so it doen't spoil the overlay */
 }
 
 footer {
@@ -71,6 +129,7 @@ footer {
   vertical-align: bottom;
   justify-content: space-between;
   align-items: flex-end;
+  z-index: 25;    /* Hopefully brings this in front of our cover overlay */
 }
 
 footer div {
@@ -100,6 +159,39 @@ footer div:nth-child(2){
 footer div:last-child {
   text-align: right;
   right: 0;
+}
+
+/* Animations */
+@-webkit-keyframes neon1 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
+  }
+}
+
+@-webkit-keyframes neon3 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFDD1B, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px #FFDD1B, 0 0 150px #FFDD1B;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
+  }
+}
+
+/* TODO: ROCK THE BOAT! */
+@-webkit-keyframes boatrock {
+  from {
+    -ms-transform: rotate(7deg); /* IE 9 */
+    -webkit-transform: rotate(7deg); /* Safari */
+    transform: rotate(7deg);
+  }
+  to {
+    -ms-transform: rotate(-7deg); /* IE 9 */
+    -webkit-transform: rotate(-7deg); /* Safari */
+    transform: rotate(-7deg);    
+  }
 }
 
 /* TODO: RWD */
